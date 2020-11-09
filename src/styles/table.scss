@@ -1,0 +1,197 @@
+@use "sass:map";
+$cards: (
+  "hearts2",
+  "diamonds2",
+  "clubs2",
+  "spades2",
+  "hearts3",
+  "diamonds3",
+  "clubs3",
+  "spades3",
+  "hearts4",
+  "diamonds4",
+  "clubs4",
+  "spades4",
+  "hearts5",
+  "diamonds5",
+  "clubs5",
+  "spades5",
+  "hearts6",
+  "diamonds6",
+  "clubs6",
+  "spades6",
+  "hearts7",
+  "diamonds7",
+  "clubs7",
+  "spades7",
+  "hearts8",
+  "diamonds8",
+  "clubs8",
+  "spades8",
+  "hearts9",
+  "diamonds9",
+  "clubs9",
+  "spades9",
+  "hearts10",
+  "diamonds10",
+  "clubs10",
+  "spades10",
+  "heartsjack",
+  "diamondsjack",
+  "clubsjack",
+  "spadesjack",
+  "heartsqueen",
+  "diamondsqueen",
+  "clubsqueen",
+  "spadesqueen",
+  "heartsking",
+  "diamondsking",
+  "clubsking",
+  "spadesking",
+  "heartsace",
+  "diamondsace",
+  "clubsace",
+  "spadesace"
+);
+.card {
+  width: 80px;
+  height: 121px;
+  margin: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  background-size: cover;
+  background-color: darkred;
+}
+
+// div[class*=" heart"] {
+//   background: red;
+// }
+// div[class*=" diamond"] {
+//   background: green;
+// }
+// div[class*=" club"] {
+//   background: pink;
+// }
+// div[class*=" pik"] {
+//   background: blue;
+// }
+
+// .card {
+//   &.heart2 {
+//     background-image: url("../imgs/heart.jpg");
+//     background-position: 50px 50px;
+//   }
+// }
+
+.cards {
+  position: relative;
+
+  .card {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    @for $i from 1 through 52 {
+      &:nth-child(#{$i}) {
+        left: #{$i}rem;
+        z-index: #{$i};
+      }
+    }
+    // &:nth-child(2) {
+    //   left: 1rem;
+    //   z-index: 1;
+    // }
+    // &:nth-child(3) {
+    //   left: 2rem;
+    //   z-index: 2;
+    // }
+  }
+}
+
+.tableBoard {
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url("../imgs/bg.jpg");
+  background-size: cover;
+}
+
+.mainTable {
+  margin: auto;
+  display: grid;
+  max-width: 100vh;
+  grid-template-columns: 33.3vh 33.3vh 33.3vh;
+  grid-template-rows: 33.3vh 33.3vh 33.3vh;
+
+  grid-template-areas:
+    ". player1 ."
+    "player2 center player3"
+    ". player4 .";
+
+  .name {
+    font-family: sans-serif;
+    font-weight: bold;
+    color: whitesmoke;
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+  }
+}
+.player {
+  padding: 0.725rem;
+  &.active {
+    @each $card in $cards {
+      .card.#{$card} {
+        background-image: url("../imgs/#{$card}.png");
+      }
+    }
+  }
+  &.player1 {
+    grid-area: player1;
+    border: 1px solid black;
+  }
+
+  &.player2 {
+    grid-area: player2;
+    border: 1px solid black;
+  }
+
+  &.player3 {
+    grid-area: player3;
+    border: 1px solid black;
+  }
+
+  &.player4 {
+    grid-area: player4;
+    border: 1px solid black;
+  }
+}
+
+.center {
+  grid-area: center;
+  border: 1px solid black;
+  .game {
+    position: relative;
+    .card {
+      position: absolute;
+      @for $i from 1 through 52 {
+        &:nth-child(#{$i}) {
+          transform: rotate(#{$i * 20}deg);
+          z-index: #{$i};
+        }
+      }
+    }
+    @each $card in $cards {
+      .card.#{$card} {
+        background-image: url("../imgs/#{$card}.png");
+      }
+    }
+  }
+  .restOfCards {
+    position: relative;
+    left: 90px;
+    bottom: -50px;
+    .card {
+      position: absolute;
+    }
+  }
+}
