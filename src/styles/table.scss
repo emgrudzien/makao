@@ -1,5 +1,61 @@
+@use "sass:list";
 @use "sass:map";
-$cards: (
+
+$cardsClass: (
+  "hearts_2",
+  "diamonds_2",
+  "clubs_2",
+  "spades_2",
+  "hearts_3",
+  "diamonds_3",
+  "clubs_3",
+  "spades_3",
+  "hearts_4",
+  "diamonds_4",
+  "clubs_4",
+  "spades_4",
+  "hearts_5",
+  "diamonds_5",
+  "clubs_5",
+  "spades_5",
+  "hearts_6",
+  "diamonds_6",
+  "clubs_6",
+  "spades_6",
+  "hearts_7",
+  "diamonds_7",
+  "clubs_7",
+  "spades_7",
+  "hearts_8",
+  "diamonds_8",
+  "clubs_8",
+  "spades_8",
+  "hearts_9",
+  "diamonds_9",
+  "clubs_9",
+  "spades_9",
+  "hearts_10",
+  "diamonds_10",
+  "clubs_10",
+  "spades_10",
+  "hearts_jack",
+  "diamonds_jack",
+  "clubs_jack",
+  "spades_jack",
+  "hearts_queen",
+  "diamonds_queen",
+  "clubs_queen",
+  "spades_queen",
+  "hearts_king",
+  "diamonds_king",
+  "clubs_king",
+  "spades_king",
+  "hearts_ace",
+  "diamonds_ace",
+  "clubs_ace",
+  "spades_ace"
+);
+$cardsImg: (
   "hearts2",
   "diamonds2",
   "clubs2",
@@ -84,7 +140,7 @@ $cards: (
 // }
 
 .cards {
-  position: relative;
+  // position: relative;
 
   .card {
     position: absolute;
@@ -97,14 +153,6 @@ $cards: (
         z-index: #{$i};
       }
     }
-    // &:nth-child(2) {
-    //   left: 1rem;
-    //   z-index: 1;
-    // }
-    // &:nth-child(3) {
-    //   left: 2rem;
-    //   z-index: 2;
-    // }
   }
 }
 
@@ -125,8 +173,8 @@ $cards: (
 
   grid-template-areas:
     ". player1 ."
-    "player2 center player3"
-    ". player4 .";
+    "player4 center player2"
+    ". player3 .";
 
   .name {
     font-family: sans-serif;
@@ -138,13 +186,19 @@ $cards: (
 }
 .player {
   padding: 0.725rem;
-  &.active {
-    @each $card in $cards {
-      .card.#{$card} {
-        background-image: url("../imgs/#{$card}.png");
+  &.current {
+    @for $i from 1 through 52 {
+      .card.#{list.nth($cardsClass, $i)} {
+        background-image: url("../imgs/#{list.nth($cardsImg, $i)}.png");
       }
     }
   }
+  // @each $card in $cards {
+  //   .card.#{$card} {
+  //     background-image: url("../imgs/#{$card}.png");
+  //   }
+  // }
+
   &.player1 {
     grid-area: player1;
     border: 1px solid black;
@@ -180,11 +234,16 @@ $cards: (
         }
       }
     }
-    @each $card in $cards {
-      .card.#{$card} {
-        background-image: url("../imgs/#{$card}.png");
+    @for $i from 1 through 52 {
+      .card.#{list.nth($cardsClass, $i)} {
+        background-image: url("../imgs/#{list.nth($cardsImg, $i)}.png");
       }
     }
+    // @each $card in $cardsImg {
+    //   .card.#{$card} {
+    //     background-image: url("../imgs/#{$card}.png");
+    //   }
+    // }
   }
   .restOfCards {
     position: relative;
