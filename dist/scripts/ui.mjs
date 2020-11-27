@@ -1,5 +1,5 @@
 import {createTag} from "./helpers.mjs";
-import { nextPlayer, getCard } from "./state.mjs";
+import { nextPlayer, getCard, undoCards } from "./state.mjs";
 // import { undoCards } from "./rules.mjs";
 
 const generateCard = (cardName) => {
@@ -73,7 +73,7 @@ const createPlayer = (config, idx) => {
             text: "Undo",
             evts: [{
                 type: "click",
-                cb: nextPlayer
+                cb: undoCards
             }]
         })
         playerUi.appendChild(buttonNext)

@@ -67,13 +67,11 @@ export const reload = () => {
             && e.clientY >= top && e.clientY <= bottom;
         
         const canBePlayed = checkCard(card);
-        if (inBounds && canBePlayed && canTossCardInRow(getCardName(card)) ) {
+        if (inBounds && canTossCardInRow(getCardName(card)) ) {
             addCardToRound(getCardName(card))
             console.log(gameState.round.cards)
             card.style.left = left + 10 +"px";
             card.style.top = top + 10 + "px";
-            // card.classList.add("moved")
-            playCard(card)
         } else {
             card.style.left = card.startLeft;
             card.style.top = card.startTop;

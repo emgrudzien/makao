@@ -84,21 +84,36 @@ export const getCard = () => {
 
 
 export const nextPlayer = () => {
-    const len = gameState.players.length
-    const activePlayer = getActivePlayer()
-    const idx = getActivePlayerIdx()
+    const roundLen = gameState.round.cards.length
+    if (roundLen === 0 || roundLen === 1 || roundLen ===3 || roundLen === 4){
+        const len = gameState.players.length
+        const activePlayer = getActivePlayer()
+        const idx = getActivePlayerIdx()
+        gameState.round.cards.forEach((card) => playCard(card))
+    
 // wzór do zapamietania!
-    const nextIdx = (idx + 1) % len
+        const nextIdx = (idx + 1) % len
 
-    activePlayer.active = false
-    gameState.players[nextIdx].active = true
-    removeCardsFromRound()
+        activePlayer.active = false
+        gameState.players[nextIdx].active = true
+    
+        removeCardsFromRound()
+
+        reload()
+    } else {
+        undoCards()
+    }
+}
+
+export const undoCards = () => {
+    
+    gameState.round.cards.forEach((card) => removeCardsFromRound(card))
     reload()
 }
-const removeCard = (idxOfPlayer, idxOfCard) => gameState.players[idxOfPlayer].cards.splice(idxOfCard, 1)
-const addCardToGame = (cardName) => {
-    gameState.visibleCards.push(cardName)    
-}
+
+const removeCard = (idxOfPlayer, idxOfCard) => gameState.players[idxOfPlayer].cards.splice(idxOfCard, 1);
+
+const addCardToGame = (cardName) => gameState.visibleCards.push(cardName);
 
 
 export const checkCard = (card) => {
@@ -108,9 +123,8 @@ export const checkCard = (card) => {
     return cardProperties[0] == visibleCardsProperties[0] || cardProperties[1] == visibleCardsProperties[1];
 }
 
-export const playCard = (chosenCard) => {
+export const playCard = (cardName) => {
     
-    const cardName = chosenCard.classList[1]
     const activePlayer = gameState.players.filter((e) => e.active)[0]
     const idxOfPlayer = gameState.players.indexOf(activePlayer)
     const idxOfCard = gameState.players[idxOfPlayer].cards.indexOf(cardName)
