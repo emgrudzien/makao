@@ -1,5 +1,6 @@
 import {createTag} from "./helpers.mjs";
-import { nextPlayer, getCard} from "./state.mjs";
+import { nextPlayer, getCard } from "./state.mjs";
+// import { undoCards } from "./rules.mjs";
 
 const generateCard = (cardName) => {
 
@@ -56,16 +57,30 @@ const createPlayer = (config, idx) => {
     playerUi.appendChild(playerNameTag)
 
     if (config.active){
-        const buttonTag = createTag({
+        const buttonNext = createTag({
             tagName: "button",
             className: "btn-next-player",
-            text: "Next Player",
+            text: "Next",
             evts: [{
                 type: "click",
                 cb: nextPlayer
             }]
         })
-        playerUi.appendChild(buttonTag)
+
+        const buttonUndo = createTag({
+            tagName: "button",
+            className: "btn-undo",
+            text: "Undo",
+            evts: [{
+                type: "click",
+                cb: nextPlayer
+            }]
+        })
+        playerUi.appendChild(buttonNext)
+        playerUi.appendChild(buttonUndo)
+        
+
+
     }
 
     playerUi.appendChild(playerCardsTag)

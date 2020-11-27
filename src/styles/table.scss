@@ -159,7 +159,6 @@ $cardsImg: (
 .tableBoard {
   width: 100vw;
   height: 100vh;
-
   background-image: url("../imgs/bg.jpg");
   background-size: cover;
 }
@@ -170,7 +169,6 @@ $cardsImg: (
   max-width: 100vh;
   grid-template-columns: 33.3vh 33.3vh 33.3vh;
   grid-template-rows: 33.3vh 33.3vh 33.3vh;
-
   grid-template-areas:
     ". player1 ."
     "player4 center player2"

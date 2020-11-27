@@ -1,6 +1,6 @@
 import { createMainTable, setCards } from "./ui.mjs";
-import { gameState, playCard, shuffleCards } from "./state.mjs";
-
+import { gameState, playCard, checkCard, shuffleCards } from "./state.mjs";
+import { canTossCardInRow, getCardName, addCardToRound} from "./rules.mjs"
 
 const cardsColors = [
     "hearts", "diamonds", "clubs", "spades"
@@ -66,14 +66,17 @@ export const reload = () => {
         const inBounds = e.clientX >= left && e.clientX <= right
             && e.clientY >= top && e.clientY <= bottom;
         
-        if (!inBounds) {
-            card.style.left = card.startLeft;
-            card.style.top = card.startTop;
-        } else {
+        const canBePlayed = checkCard(card);
+        if (inBounds && canBePlayed && canTossCardInRow(getCardName(card)) ) {
+            addCardToRound(getCardName(card))
+            console.log(gameState.round.cards)
             card.style.left = left + 10 +"px";
             card.style.top = top + 10 + "px";
-            card.classList.add("moved")
-            playCard()
+            // card.classList.add("moved")
+            playCard(card)
+        } else {
+            card.style.left = card.startLeft;
+            card.style.top = card.startTop;
         }
     })
 })

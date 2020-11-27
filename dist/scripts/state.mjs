@@ -1,7 +1,9 @@
 import { reload, remove, cards } from "./game.js"
+import { removeCardsFromRound } from "./rules.mjs"
 
 
 export const gameState = {
+    
     players: [
         {
             active: false,
@@ -15,24 +17,32 @@ export const gameState = {
         },
         {
             current: true,
-            active: false,
+            active: true,
             name: "Paweł3",
             cards: []
         },
         {
-            active: true,
+            active: false,
             name: "Paweł4",
             cards: []
         }
     ],
 
     hiddenCards: [],
-    visibleCards: []
-
+    visibleCards: [],
+    round: {
+        takenCard: false,
+        cards: []
+    }
+    
 }
 
-const getActivePlayer = () => gameState.players.filter((e) => e.active)[0]
-const getActivePlayerIdx = () => gameState.players.indexOf(getActivePlayer())
+
+export const functionalCards = [
+    "2", "3", "4", "jack", "king", "ace"
+]
+export const getActivePlayer = () => gameState.players.filter((e) => e.active)[0]
+export const getActivePlayerIdx = () => gameState.players.indexOf(getActivePlayer())
 
 
 const shuffleCard = () => {
@@ -82,23 +92,30 @@ export const nextPlayer = () => {
 
     activePlayer.active = false
     gameState.players[nextIdx].active = true
-
-   reload()
+    removeCardsFromRound()
+    reload()
 }
 const removeCard = (idxOfPlayer, idxOfCard) => gameState.players[idxOfPlayer].cards.splice(idxOfCard, 1)
 const addCardToGame = (cardName) => {
     gameState.visibleCards.push(cardName)    
 }
 
-export const playCard = () => {
-    const chosenCard = document.querySelector(".moved")
-    
-    if (chosenCard.classList.length > 1){
-        const cardName = chosenCard.classList[1]
-        const activePlayer = gameState.players.filter((e) => e.active)[0]
-        const idxOfPlayer = gameState.players.indexOf(activePlayer)
-        const idxOfCard = gameState.players[idxOfPlayer].cards.indexOf(cardName)
-        removeCard(idxOfPlayer, idxOfCard)
-        addCardToGame(cardName)
-    }
+
+export const checkCard = (card) => {
+    const cardProperties = card.classList[1].split("_")
+    const visibleCardsProperties = gameState.visibleCards[gameState.visibleCards.length-1].split("_")
+
+    return cardProperties[0] == visibleCardsProperties[0] || cardProperties[1] == visibleCardsProperties[1];
 }
+
+export const playCard = (chosenCard) => {
+    
+    const cardName = chosenCard.classList[1]
+    const activePlayer = gameState.players.filter((e) => e.active)[0]
+    const idxOfPlayer = gameState.players.indexOf(activePlayer)
+    const idxOfCard = gameState.players[idxOfPlayer].cards.indexOf(cardName)
+    removeCard(idxOfPlayer, idxOfCard)
+    addCardToGame(cardName)
+    
+}
+
