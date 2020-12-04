@@ -1,3 +1,4 @@
+import { checkCard } from "./state.mjs"
 import { gameState, getActivePlayer, getActivePlayerIdx, functionalCards } from "./state.mjs"
 
 
@@ -10,6 +11,13 @@ const isEndGame = () => {
     return true
 }
 
+const getCardColor = (card) => {
+    return card.split("_")[0]
+}
+
+export const getCardFigure = (card) => card.split("_")[1]
+    
+
 const checkColor = (topCard, movedCard) => {
     return topCard.split("_")[0] === movedCard.split("_")[0]
 }
@@ -20,13 +28,24 @@ const checkFigure = (topCard, movedCard) => {
 
 export const getCardName = (card) => card.classList[1]
 
-const checkIfCardIsFunctional = (card) => functionalCards.contains(card.split("_")[1])
-    
+const checkIfCardIsFunctional = (card) => functionalCards.includes(card.split("_")[1])
+
+export const changeStateIfCardIsFunctional = (card) => {
+
+    //wywolanie funkcji zwraca true lub false wiec wystarczy taki zapis
+    gameState.condition = checkIfCardIsFunctional(card);
+    console.log("condition",  gameState.condition )
+}
+
 const resetRound = () => {
     gameState.round = {
         takenCard: false,
         cards: []
     }
+}
+
+export const isJack = () => {
+    return getCardFigure(gameState.round.cards[0]) === "jack"
 }
 
 export const canTossCard = () => !gameState.round.takenCard
