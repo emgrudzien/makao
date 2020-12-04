@@ -48,6 +48,10 @@ export const isJack = () => {
     return getCardFigure(gameState.round.cards[0]) === "jack"
 }
 
+export const isAce = () => {
+    return getCardFigure(gameState.round.cards[0]) === "ace"
+}
+
 export const canTossCard = () => !gameState.round.takenCard
 
 export const canTakeCard = () => gameState.round.cards.length === 0

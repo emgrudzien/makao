@@ -1,6 +1,7 @@
-import { modalColor } from "./ui.mjs"
+import { modalColor, modalFigure} from "./ui.mjs"
 import { reload, remove, cards } from "./game.js"
-import { removeCardsFromRound, canTakeCard, canTossCard, isJack, changeStateIfCardIsFunctional } from "./rules.mjs"
+import { removeCardsFromRound, canTakeCard, canTossCard, isJack, isAce, changeStateIfCardIsFunctional } from "./rules.mjs"
+
 
 
 export const gameState = {
@@ -95,19 +96,23 @@ export const nextPlayer = () => {
             changeStateIfCardIsFunctional(gameState.round.cards[0])
         }
         if (gameState.condition){
-            
-            document.body.appendChild(modalColor())
+            if (isJack()){
+                document.body.appendChild(modalFigure())
+            }
+            if (isAce()){
+                document.body.appendChild(modalColor())
+            }
         }
-        // const len = gameState.players.length
-        // const activePlayer = getActivePlayer()
-        // const idx = getActivePlayerIdx()
-        // gameState.round.cards.forEach((card) => playCard(card))
+//         const len = gameState.players.length
+//         const activePlayer = getActivePlayer()
+//         const idx = getActivePlayerIdx()
+//         gameState.round.cards.forEach((card) => playCard(card))
     
-// wzór do zapamietania!
-        // const nextIdx = (idx + 1) % len
+// //wzór do zapamietania!
+//         const nextIdx = (idx + 1) % len
 
-        // activePlayer.active = false
-        // gameState.players[nextIdx].active = true
+//         activePlayer.active = false
+//         gameState.players[nextIdx].active = true
     
         removeCardsFromRound()
 

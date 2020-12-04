@@ -176,6 +176,58 @@ export const modalColor = () => {
     
     return modalWrapperTag
 }
+
+export const modalFigure = () => {
+    const modalWrapperTag = createTag({
+        tagName: "div",
+        className: "modal-wrapper"
+    })
+
+    const modalTag = createTag({
+        tagName: "div",
+        className: "modal"
+    })
+
+    modalWrapperTag.appendChild(modalTag)
+
+    const closeBtnTag = createTag({
+        tagName: "button",
+        className: "close-btn",
+        text: "x",
+        evts: [{
+            type: "click",
+            cb: () => modalWrapperTag.remove()
+        }]
+    })
+    modalTag.appendChild(closeBtnTag)
+
+    const cardsFigureTag = createTag({
+        tagName: "div",
+        className: "cards-figure"
+    })
+    modalTag.appendChild(cardsFigureTag)
+
+    const figuresOfCard = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"]
+    
+    figuresOfCard.forEach((figure) => {
+       const cardFigureTag = createTag({
+           tagName: "button",
+           className: ["card-figure", figure],
+           text: figure,
+           evts: [{
+               type: "click",
+               cb: () => {
+                   console.log(figure)
+                   modalWrapperTag.remove()
+                }
+           }]
+
+       })
+       cardsFigureTag.appendChild(cardFigureTag)
+    })
+    
+    return modalWrapperTag
+}
    
     
 
