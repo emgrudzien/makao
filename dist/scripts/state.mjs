@@ -1,5 +1,5 @@
 import { reload, remove, cards } from "./game.js"
-import { removeCardsFromRound } from "./rules.mjs"
+import { removeCardsFromRound, canTakeCard, canTossCard } from "./rules.mjs"
 
 
 export const gameState = {
@@ -73,7 +73,7 @@ export const shuffleCards = () => {
 }
 
 export const getCard = () => {
-    if (getActivePlayer().current){
+    if (getActivePlayer().current && canTakeCard()){
         const lastCard = gameState.hiddenCards.pop()
         getActivePlayer().cards.push(lastCard)
         reload()
@@ -115,7 +115,7 @@ const removeCard = (idxOfPlayer, idxOfCard) => gameState.players[idxOfPlayer].ca
 
 const addCardToGame = (cardName) => gameState.visibleCards.push(cardName);
 
-
+// ta funkcja juz nieaktualna bo sprawdzala wartosci miedzy karta a visible cards a teraz sprawdzamy z round.cards
 export const checkCard = (card) => {
     const cardProperties = card.classList[1].split("_")
     const visibleCardsProperties = gameState.visibleCards[gameState.visibleCards.length-1].split("_")

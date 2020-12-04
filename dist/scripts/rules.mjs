@@ -29,9 +29,9 @@ const resetRound = () => {
     }
 }
 
-const canTossCard = () => !gameState.round.takenCard
+export const canTossCard = () => !gameState.round.takenCard
 
-const canTakeCard = () => gameState.round.cards.length === 0
+export const canTakeCard = () => gameState.round.cards.length === 0
 
 const takeCard = () => gameState.round.takenCard = true
 

@@ -34,11 +34,14 @@ export const reload = () => {
     
     
     let indexCounter = 100
+    
     const cardsHTML = document.querySelectorAll(".active .card")
     let move = false;
     cardsHTML.forEach((card) => {
         card.startLeft = card.style.left;
         card.startTop = card.style.top;
+        card.startZIndex = card.style.zIndex;
+
 
     card.addEventListener("mousedown", (e) => {
        move = true
@@ -66,15 +69,15 @@ export const reload = () => {
         const inBounds = e.clientX >= left && e.clientX <= right
             && e.clientY >= top && e.clientY <= bottom;
         
-        const canBePlayed = checkCard(card);
+        // const canBePlayed = checkCard(card);
         if (inBounds && canTossCardInRow(getCardName(card)) ) {
             addCardToRound(getCardName(card))
-            console.log(gameState.round.cards)
             card.style.left = left + 10 +"px";
             card.style.top = top + 10 + "px";
         } else {
             card.style.left = card.startLeft;
             card.style.top = card.startTop;
+            card.style.zIndex = card.startZIndex;
         }
     })
 })

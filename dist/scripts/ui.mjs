@@ -1,14 +1,13 @@
 import {createTag} from "./helpers.mjs";
 import { nextPlayer, getCard, undoCards } from "./state.mjs";
-// import { undoCards } from "./rules.mjs";
+
 
 const generateCard = (cardName) => {
 
     return createTag({
         tagName: "div",
         className: ["card", cardName],
-        // left: cardsContainerLeft
-    })
+     })
 }
 
 export const setCards = (idx) => {
