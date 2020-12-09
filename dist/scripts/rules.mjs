@@ -37,7 +37,24 @@ export const changeStateIfCardIsFunctional = (card) => {
     console.log("condition",  gameState.condition )
 }
 
-const resetRound = () => {
+const is2or3 = () => {
+    const topCardIdx = gameState.visibleCards.length-1
+    return getCardFigure(gameState.visibleCards[topCardIdx]) === "2" || getCardFigure(gameState.visibleCards[topCardIdx]) === "3"
+}
+
+const takeCardIf2or3 = () => {
+    
+}
+
+const canTossOnly2or3orKing = () => {
+    const topCardIdx = gameState.visibleCards.length-1
+    const colorOfTopCard = getCardColor(gameState.visibleCards[topCardIdx])
+    
+
+
+}
+
+export const resetRound = () => {
     gameState.round = {
         takenCard: false,
         cards: []
@@ -67,16 +84,15 @@ export const removeCardsFromRound = () => {
 }
 
 export const canTossCardInRow = (card) => {
-    console.log(card)
+    
     if (gameState.round.cards.length === 0 ){
         const topCard = gameState.visibleCards[gameState.visibleCards.length-1]
-        console.log(checkColor(topCard, card) || checkFigure(topCard, card))
+    
         return checkColor(topCard, card) || checkFigure(topCard, card)
     }
 
     const lastCard = gameState.round.cards[gameState.round.cards.length-1]
-    console.log(checkFigure(lastCard, card))
-    console.log(gameState.round.cards)
+
     return checkFigure(lastCard, card)
      
 }

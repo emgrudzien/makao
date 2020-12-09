@@ -1,6 +1,6 @@
 import { modal } from "./ui.mjs"
 import { reload, remove, cards } from "./game.js"
-import { removeCardsFromRound, canTakeCard, canTossCard, isJack, isAce, changeStateIfCardIsFunctional } from "./rules.mjs"
+import { removeCardsFromRound, canTakeCard, canTossCard, isJack, isAce, changeStateIfCardIsFunctional, resetRound } from "./rules.mjs"
 
 export const gameState = {
     
@@ -99,6 +99,7 @@ export const nextPlayer = () => {
            
                 document.body.appendChild(modal())
             }
+       
             
         
 //         const len = gameState.players.length
@@ -112,7 +113,7 @@ export const nextPlayer = () => {
 //         activePlayer.active = false
 //         gameState.players[nextIdx].active = true
     
-        removeCardsFromRound()
+        resetRound()
 
         reload()
     } else {
