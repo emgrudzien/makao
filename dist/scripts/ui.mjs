@@ -1,5 +1,6 @@
 import {createTag} from "./helpers.mjs";
 import { nextPlayer, getCard, undoCards } from "./state.mjs";
+import { isJack, isAce } from "./rules.mjs"
 
 
 const generateCard = (cardName) => {
@@ -29,17 +30,17 @@ export const setCards = (idx) => {
 
 
 const createPlayer = (config, idx) => {
+
     const playerUi = createTag({
         tagName: "div",
-        className: ["player", `player${idx}`, config.active ? "active" : "not-active", config.current ? "current" : "not-active"]
-        
+        className: ["player", `player${idx}`, config.active ? "active" : "not-active", config.current ? "current" : "not-active"] 
     })
+
     const playerNameTag = createTag({
         tagName: "span",
         className: "name",
         text: config.name,
     })
-  
 
     const playerCardsTag = createTag({
         tagName: "div",
@@ -51,8 +52,6 @@ const createPlayer = (config, idx) => {
         playerCardsTag.appendChild(cardTag)
     })
 
-    
-    
     playerUi.appendChild(playerNameTag)
 
     if (config.active){
@@ -75,11 +74,9 @@ const createPlayer = (config, idx) => {
                 cb: undoCards
             }]
         })
+
         playerUi.appendChild(buttonNext)
         playerUi.appendChild(buttonUndo)
-        
-
-
     }
 
     playerUi.appendChild(playerCardsTag)
@@ -100,7 +97,7 @@ const createTable = (hiddenCards, visibleCards) => {
 
     })
 
-    visibleCards.forEach((card) =>{
+    visibleCards.forEach((card) => {
         const cardTag = generateCard(card)
         visibleCardsTag.appendChild(cardTag)
     })
@@ -126,30 +123,7 @@ const createTable = (hiddenCards, visibleCards) => {
     return tableTag
 }
 
-export const modalColor = () => {
-    const modalWrapperTag = createTag({
-        tagName: "div",
-        className: "modal-wrapper"
-    })
-
-    const modalTag = createTag({
-        tagName: "div",
-        className: "modal"
-    })
-
-    modalWrapperTag.appendChild(modalTag)
-
-    const closeBtnTag = createTag({
-        tagName: "button",
-        className: "close-btn",
-        text: "x",
-        evts: [{
-            type: "click",
-            cb: () => modalWrapperTag.remove()
-        }]
-    })
-    modalTag.appendChild(closeBtnTag)
-
+const createColorModal = (modalTag, modalWrapperTag) => {
     const cardsColorTag = createTag({
         tagName: "div",
         className: "cards-color"
@@ -173,11 +147,38 @@ export const modalColor = () => {
        })
        cardsColorTag.appendChild(cardColorTag)
     })
-    
-    return modalWrapperTag
 }
 
-export const modalFigure = () => {
+const createFigureModal = (modalTag, modalWrapperTag) => {
+
+    const cardsFigureTag = createTag({
+        tagName: "div",
+        className: "cards-figure"
+    })
+
+    modalTag.appendChild(cardsFigureTag)
+
+    const figuresOfCard = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"]
+    
+    figuresOfCard.forEach((figure) => {
+       const cardFigureTag = createTag({
+           tagName: "button",
+           className: ["card-figure", figure],
+           text: figure,
+           evts: [{
+               type: "click",
+               cb: () => {
+                   console.log(figure)
+                   modalWrapperTag.remove()
+                }
+           }]
+
+       })
+       cardsFigureTag.appendChild(cardFigureTag)
+    })
+    
+ }
+export const modal = () => {
     const modalWrapperTag = createTag({
         tagName: "div",
         className: "modal-wrapper"
@@ -201,36 +202,15 @@ export const modalFigure = () => {
     })
     modalTag.appendChild(closeBtnTag)
 
-    const cardsFigureTag = createTag({
-        tagName: "div",
-        className: "cards-figure"
-    })
-    modalTag.appendChild(cardsFigureTag)
+    if (isAce()) {
+        createColorModal(modalTag, modalWrapperTag) 
+    } 
+    if (isJack()) {
+        createFigureModal(modalTag, modalWrapperTag)
+    }
 
-    const figuresOfCard = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"]
-    
-    figuresOfCard.forEach((figure) => {
-       const cardFigureTag = createTag({
-           tagName: "button",
-           className: ["card-figure", figure],
-           text: figure,
-           evts: [{
-               type: "click",
-               cb: () => {
-                   console.log(figure)
-                   modalWrapperTag.remove()
-                }
-           }]
-
-       })
-       cardsFigureTag.appendChild(cardFigureTag)
-    })
-    
     return modalWrapperTag
 }
-   
-    
-
 
 export const createMainTable = (state) => {
     const tableBoardTag = createTag({
